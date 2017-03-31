@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var moneyLabel: UILabel!
     @IBOutlet weak var moneyTxt: UITextField!
@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        moneyTxt.delegate = self
         //Loading Money
         formatter.numberStyle = .currency
         if let money = defaults.value(forKey: MONEY_STD) as? Double {
@@ -33,7 +35,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func savePresses(_ sender: Any) {
+    @IBAction func savePressed(_ sender: Any) {
     
         if moneyTxt.text != ""{
             if let moneyPrev = defaults.value(forKey: MONEY_STD) as? Double {
@@ -51,6 +53,16 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
 
 }
 
